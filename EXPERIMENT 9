@@ -85,4 +85,5 @@ Q-Learning Q-Values:
  [ 0.0  0.0]]
 Result
 
-TD(0), SARSA, and Q-Learning algorithms were successfully implemented for the warehouse robot. The algorithms learned action values th
+TD(0), SARSA, and Q-Learning algorithms were successfully implemented for the warehouse robot. The algorithms learned action values that can be used to improve navigation and avoid obstacles.
+
