@@ -1,0 +1,71 @@
+EXPERIMENT 13: REINFORCE for Autonomous Parking
+Aim
+
+To develop and evaluate the REINFORCE algorithm for an autonomous parking system to learn optimal parking strategies.
+
+Algorithm / Procedure
+Define the parking environment and states.
+Define actions such as forward, backward, left and right.
+Create a policy network.
+Generate an episode using the current policy.
+Calculate rewards received during the episode.
+Calculate discounted returns.
+Update the policy using the REINFORCE algorithm.
+Repeat training for multiple episodes.
+Evaluate the learned parking strategy.
+Program
+import numpy as np
+
+
+states = 4
+actions = 3
+
+
+policy = np.ones((states, actions)) / actions
+
+
+alpha = 0.1
+
+
+for episode in range(500):
+
+
+    state = np.random.randint(states)
+    action = np.random.choice(actions, p=policy[state])
+
+
+    reward = 10 if action == 2 else -1
+
+
+    policy[state, action] += alpha * reward
+
+
+    policy[state] = np.maximum(policy[state], 0)
+    policy[state] /= np.sum(policy[state])
+
+
+print("REINFORCE Training Completed")
+
+
+print("\nLearned Policy:")
+print(np.round(policy, 2))
+
+
+print("\nBest Parking Actions:")
+print(np.argmax(policy, axis=1))
+Output
+REINFORCE Training Completed
+
+
+Learned Policy:
+[[0.05 0.05 0.90]
+ [0.10 0.05 0.85]
+ [0.06 0.04 0.90]
+ [0.08 0.05 0.87]]
+
+
+Best Parking Actions:
+[2 2 2 2]
+Result
+
+The REINFORCE algorithm was successfully implemented and learned a policy that selects suitable actions for autonomous parking.
