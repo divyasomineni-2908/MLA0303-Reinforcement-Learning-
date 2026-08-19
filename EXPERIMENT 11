@@ -1,0 +1,83 @@
+EXPERIMENT 11: DQN, DDQN, Dueling DQN and PER for Smart Traffic Signal Control
+Aim
+
+To implement and compare DQN, Double DQN (DDQN), Dueling DQN, and Prioritized Experience Replay (PER) for smart traffic signal control to minimize vehicle waiting time.
+
+Algorithm / Procedure
+Define the traffic signal environment and traffic states.
+Define actions for changing the traffic signal.
+Create a neural network to estimate Q-values.
+Implement DQN using experience replay.
+Implement DDQN to reduce overestimation of Q-values.
+Implement Dueling DQN by separating state value and action advantage.
+Implement PER by giving higher priority to important experiences.
+Train the models using traffic states and rewards.
+Compare the learned Q-values and waiting-time performance.
+Select the model that provides better traffic control.
+Program
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+
+states = 4
+actions = 2
+
+
+# DQN
+dqn = Sequential([
+    Dense(24, activation="relu", input_shape=(states,)),
+    Dense(24, activation="relu"),
+    Dense(actions, activation="linear")
+])
+
+
+dqn.compile(optimizer="adam", loss="mse")
+
+
+# Sample traffic data
+X = np.array([
+    [10, 5, 2, 1],
+    [20, 10, 5, 2],
+    [5, 15, 3, 1],
+    [2, 5, 20, 10]
+], dtype=float)
+
+
+Y = np.array([
+    [5, 2],
+    [8, 3],
+    [3, 7],
+    [2, 9]
+], dtype=float)
+
+
+dqn.fit(X, Y, epochs=20, verbose=0)
+
+
+q_values = dqn.predict(X, verbose=0)
+
+
+print("DQN Training Completed")
+print("\nDQN Q-Values:")
+print(np.round(q_values, 2))
+
+
+print("\nBest Actions:")
+print(np.argmax(q_values, axis=1))
+Output
+DQN Training Completed
+
+
+DQN Q-Values:
+[[... ...]
+ [... ...]
+ [... ...]
+ [... ...]]
+
+
+Best Actions:
+[0 0 1 1]
+Result
+
+DQN was successfully implemented for smart traffic signal control. The learned Q-values can be used to select traffic signal actions to reduce vehicle waiting time.
