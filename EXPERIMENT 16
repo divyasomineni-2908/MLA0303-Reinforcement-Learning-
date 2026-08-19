@@ -1,0 +1,73 @@
+EXPERIMENT 16: Policy Gradient for Autonomous Lane Keeping
+Aim
+
+To implement and compare policy gradient algorithms for an autonomous lane-keeping system to improve driving performance and stability.
+
+Algorithm / Procedure
+Define the vehicle state using lane position and steering information.
+Define steering actions.
+Initialize the policy.
+Select steering actions according to the policy.
+Assign rewards for maintaining the correct lane.
+Update the policy using received rewards.
+Repeat the learning process.
+Compare the learned actions for lane keeping.
+Program
+import numpy as np
+
+
+states = ["Left", "Center", "Right"]
+actions = ["Left", "Straight", "Right"]
+
+
+policy = np.ones((3, 3)) / 3
+
+
+for episode in range(500):
+
+
+    state = np.random.randint(3)
+    action = np.random.choice(3)
+
+
+    if state == 0 and action == 2:
+        reward = 10
+    elif state == 1 and action == 1:
+        reward = 10
+    elif state == 2 and action == 0:
+        reward = 10
+    else:
+        reward = -1
+
+
+    policy[state, action] += 0.05 * reward
+
+
+    policy[state] = np.maximum(policy[state], 0)
+    policy[state] /= np.sum(policy[state])
+
+
+print("Policy Gradient Training Completed")
+
+
+print("\nLane Keeping Policy:")
+print(np.round(policy, 2))
+
+
+print("\nBest Actions:")
+print(np.argmax(policy, axis=1))
+Output
+Policy Gradient Training Completed
+
+
+Lane Keeping Policy:
+[[... ... ...]
+ [... ... ...]
+ [... ... ...]]
+
+
+Best Actions:
+[2 1 0]
+Result
+
+The policy gradient algorithm was successfully implemented for autonomous lane keeping and learned suitable steering actions to improve vehicle stability.
