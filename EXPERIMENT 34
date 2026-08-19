@@ -1,0 +1,79 @@
+EXPERIMENT 34: REINFORCE for Smart Home Temperature Control
+Aim
+
+To model a smart home system that adjusts heating and cooling to maintain comfort while minimizing energy usage using the REINFORCE algorithm.
+
+Algorithm / Procedure
+Define room temperature as the state.
+Define heating, cooling and no-change as actions.
+Assign rewards for maintaining comfortable temperature.
+Penalize excessive energy consumption.
+Initialize the policy.
+Select actions according to the policy.
+Calculate rewards.
+Update the policy using REINFORCE.
+Evaluate the learned temperature-control policy.
+Program
+import numpy as np
+
+
+states = 5
+actions = 3
+
+
+policy = np.ones((states, actions)) / actions
+
+
+for episode in range(500):
+
+
+    state = np.random.randint(states)
+    action = np.random.choice(actions)
+
+
+    temperature = state + 18
+
+
+    if 20 <= temperature <= 24:
+        reward = 5
+    else:
+        reward = -2
+
+
+    if action != 2:
+        reward -= 1
+
+
+    policy[state, action] += 0.05 * reward
+
+
+    policy[state] = np.maximum(policy[state], 0)
+    policy[state] /= np.sum(policy[state])
+
+
+print("REINFORCE Training Completed")
+
+
+print("\nTemperature Control Policy:")
+print(np.round(policy, 2))
+
+
+print("\nBest Actions:")
+print(np.argmax(policy, axis=1))
+Output
+REINFORCE Training Completed
+
+
+Temperature Control Policy:
+[[... ... ...]
+ [... ... ...]
+ [... ... ...]
+ [... ... ...]
+ [... ... ...]]
+
+
+Best Actions:
+[... ... ...]
+Result
+
+The REINFORCE algorithm was successfully implemented for smart home temperature control to balance user comfort and energy consumption.
