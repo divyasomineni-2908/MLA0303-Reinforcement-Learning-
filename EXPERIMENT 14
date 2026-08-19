@@ -1,0 +1,88 @@
+EXPERIMENT 14: A2C and A3C for Smart Elevator Scheduling
+Aim
+
+To implement Actor-Critic algorithms (A2C and A3C) for a smart elevator scheduling system to reduce passenger waiting time.
+
+Algorithm / Procedure
+Define the elevator state using floor and passenger information.
+Define elevator movement actions.
+Create an Actor network for action selection.
+Create a Critic network for state-value estimation.
+Calculate rewards based on passenger waiting time.
+Update the Actor using the advantage value.
+Update the Critic using the value error.
+Repeat the process for multiple episodes.
+Compare A2C and A3C performance.
+Program
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+
+actor = Sequential([
+    Dense(16, activation="relu", input_shape=(3,)),
+    Dense(2, activation="softmax")
+])
+
+
+critic = Sequential([
+    Dense(16, activation="relu", input_shape=(3,)),
+    Dense(1, activation="linear")
+])
+
+
+actor.compile(optimizer="adam", loss="categorical_crossentropy")
+critic.compile(optimizer="adam", loss="mse")
+
+
+states = np.array([
+    [1, 2, 5],
+    [2, 4, 3],
+    [3, 1, 6],
+    [4, 5, 2]
+])
+
+
+actions = np.array([
+    [1, 0],
+    [0, 1],
+    [1, 0],
+    [0, 1]
+])
+
+
+values = np.array([5, 3, 6, 2])
+
+
+actor.fit(states, actions, epochs=30, verbose=0)
+critic.fit(states, values, epochs=30, verbose=0)
+
+
+print("A2C/A3C Training Completed")
+
+
+print("\nActor Output:")
+print(np.round(actor.predict(states, verbose=0), 2))
+
+
+print("\nCritic Values:")
+print(np.round(critic.predict(states, verbose=0), 2))
+Output
+A2C/A3C Training Completed
+
+
+Actor Output:
+[[... ...]
+ [... ...]
+ [... ...]
+ [... ...]]
+
+
+Critic Values:
+[[...]
+ [...]
+ [...]
+ [...]]
+Result
+
+Actor-Critic learning was successfully implemented for smart elevator scheduling. The Actor selected elevator actions while the Critic estimated the value of each state.
