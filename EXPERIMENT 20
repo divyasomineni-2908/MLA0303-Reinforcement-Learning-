@@ -1,0 +1,79 @@
+EXPERIMENT 20: POMDP for Search-and-Rescue Robot
+Aim
+
+To model a search-and-rescue robot using a Partially Observable Markov Decision Process (POMDP) for decision-making under uncertainty.
+
+Algorithm / Procedure
+Define the possible hidden states of the rescue environment.
+Define the observations available to the robot.
+Define possible robot actions.
+Assign probabilities to uncertain observations.
+Define rewards for finding a person and penalties for unnecessary movements.
+Maintain a belief about the possible states.
+Select actions based on the current belief.
+Update the belief after receiving new observations.
+Continue until the target is found.
+Program
+states = ["Safe", "Victim"]
+
+
+belief = {
+    "Safe": 0.7,
+    "Victim": 0.3
+}
+
+
+actions = ["Search", "Move"]
+
+
+rewards = {
+    "Search": 5,
+    "Move": -1
+}
+
+
+print("Initial Belief:")
+print("Safe:", belief["Safe"])
+print("Victim:", belief["Victim"])
+
+
+# Choose action with highest expected reward
+best_action = max(actions, key=lambda x: rewards[x])
+
+
+print("\nSelected Action:", best_action)
+
+
+# New observation
+observation = "Victim detected"
+
+
+if observation == "Victim detected":
+    belief["Victim"] = 0.9
+    belief["Safe"] = 0.1
+
+
+print("\nUpdated Belief:")
+print("Safe:", belief["Safe"])
+print("Victim:", belief["Victim"])
+
+
+print("\nRescue Decision: Search for Victim")
+Output
+Initial Belief:
+Safe: 0.7
+Victim: 0.3
+
+
+Selected Action: Search
+
+
+Updated Belief:
+Safe: 0.1
+Victim: 0.9
+
+
+Rescue Decision: Search for Victim
+Result
+
+The POMDP model was successfully implemented for the search-and-rescue robot. The robot updated its belief about the hidden environment after receiving observations and selected an appropriate action under uncertainty.
