@@ -1,0 +1,111 @@
+EXPERIMENT 28: Bellman's Optimality Equation for Robot Navigation
+Aim
+
+To use Bellman's optimality equation to compute the optimal state-value function for a robot's navigation tasks and demonstrate the optimal path.
+
+Algorithm / Procedure
+Define the robot's grid environment.
+Define the states and possible movements.
+Assign movement costs and goal rewards.
+Initialize state values.
+Apply Bellman's optimality equation.
+Update the state values repeatedly.
+Select the action with the highest value.
+Trace the optimal path to the goal.
+Program
+import numpy as np
+
+
+grid = 4
+
+
+value = np.zeros((grid, grid))
+
+
+goal = (3, 3)
+
+
+gamma = 0.9
+
+
+for iteration in range(20):
+
+
+    new_value = value.copy()
+
+
+    for r in range(grid):
+        for c in range(grid):
+
+
+            if (r, c) == goal:
+                continue
+
+
+            next_states = []
+
+
+            if r > 0:
+                next_states.append((r-1, c))
+            if r < 3:
+                next_states.append((r+1, c))
+            if c > 0:
+                next_states.append((r, c-1))
+            if c < 3:
+                next_states.append((r, c+1))
+
+
+            new_value[r, c] = -1 + gamma * max(
+                value[s] for s in next_states
+            )
+
+
+    value = new_value
+
+
+print("Optimal State Values:")
+print(np.round(value, 2))
+
+
+print("\nOptimal Path:")
+
+
+state = (0, 0)
+
+
+while state != goal:
+
+
+    print(state, "->", end=" ")
+
+
+    r, c = state
+
+
+    neighbors = []
+
+
+    if r < 3:
+        neighbors.append((r+1, c))
+    if c < 3:
+        neighbors.append((r, c+1))
+
+
+    state = max(neighbors, key=lambda s: value[s])
+
+
+print(goal)
+Output
+Optimal State Values:
+[[-4.69 -4.10 -3.44 -2.71]
+ [-4.10 -3.44 -2.71 -1.90]
+ [-3.44 -2.71 -1.90 -1.00]
+ [-2.71 -1.90 -1.00  0.00]]
+
+
+Optimal Path:
+(0, 0) -> (1, 0) -> (2, 0) -> (3, 0)
+-> (3, 1) -> (3, 2) -> (3, 3)
+Result
+
+Bellman's optimality equation was successfully implemented to calculate the optimal state-value function and determine a minimum-cost path for the robot.
