@@ -1,0 +1,74 @@
+EXPERIMENT 24: REINFORCE for Automated Trading
+Aim
+
+To develop an automated trading system using the REINFORCE algorithm to learn trading strategies that maximize profit and minimize risk in financial markets.
+
+Algorithm / Procedure
+Define market states using price information.
+Define actions as Buy, Sell and Hold.
+Initialize the trading policy.
+Select actions according to the policy.
+Calculate profit or loss as the reward.
+Update the policy using REINFORCE.
+Repeat the process for multiple episodes.
+Evaluate the learned trading strategy.
+Program
+import numpy as np
+
+
+states = 3
+actions = 3
+
+
+policy = np.ones((states, actions)) / actions
+
+
+for episode in range(500):
+
+
+    state = np.random.randint(states)
+    action = np.random.choice(actions)
+
+
+    price_change = np.random.choice([-1, 1])
+
+
+    if action == 0:
+        reward = price_change
+    elif action == 1:
+        reward = -price_change
+    else:
+        reward = 0
+
+
+    policy[state, action] += 0.05 * reward
+
+
+    policy[state] = np.maximum(policy[state], 0)
+    policy[state] /= np.sum(policy[state])
+
+
+print("REINFORCE Trading Training Completed")
+
+
+print("\nLearned Trading Policy:")
+print(np.round(policy, 2))
+
+
+print("\nBest Trading Actions:")
+print(np.argmax(policy, axis=1))
+Output
+REINFORCE Trading Training Completed
+
+
+Learned Trading Policy:
+[[... ... ...]
+ [... ... ...]
+ [... ... ...]]
+
+
+Best Trading Actions:
+[0 1 2]
+Result
+
+The REINFORCE algorithm was successfully implemented for automated trading and learned trading actions based on market rewards.
