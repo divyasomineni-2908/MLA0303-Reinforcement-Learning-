@@ -1,0 +1,91 @@
+EXPERIMENT 29: Policy Iteration for Traffic Light Optimization
+Aim
+
+To design a dynamic programming solution to optimize traffic light timings at an intersection using policy iteration to minimize vehicle waiting time.
+
+Algorithm / Procedure
+Define traffic states based on vehicle density.
+Define actions such as Green North-South and Green East-West.
+Assign rewards based on vehicle waiting time.
+Initialize a random policy.
+Evaluate the current policy.
+Improve the policy using the state values.
+Repeat policy evaluation and improvement.
+Stop when the policy becomes stable.
+Display the optimal traffic light policy.
+Program
+import numpy as np
+
+
+states = 4
+actions = 2
+
+
+policy = np.zeros(states, dtype=int)
+value = np.zeros(states)
+
+
+reward = np.array([
+    [5, 2],
+    [2, 5],
+    [6, 1],
+    [1, 6]
+])
+
+
+gamma = 0.9
+
+
+for iteration in range(20):
+
+
+    # Policy Evaluation
+    for i in range(20):
+        for state in range(states):
+            action = policy[state]
+            value[state] = reward[state, action] + gamma * value[state]
+
+
+    # Policy Improvement
+    stable = True
+
+
+    for state in range(states):
+
+
+        best_action = np.argmax(
+            reward[state] + gamma * value[state]
+        )
+
+
+        if best_action != policy[state]:
+            policy[state] = best_action
+            stable = False
+
+
+    if stable:
+        break
+
+
+print("Optimal Traffic Light Policy:")
+print(policy)
+
+
+print("\nState Values:")
+print(np.round(value, 2))
+
+
+print("\nPolicy Stable:", stable)
+Output
+Optimal Traffic Light Policy:
+[0 1 0 1]
+
+
+State Values:
+[...]
+
+
+Policy Stable: True
+Result
+
+The policy iteration algorithm was successfully implemented for traffic light optimization. The optimal traffic signal policy was obtained to reduce vehicle waiting time.
