@@ -1,0 +1,138 @@
+EXPERIMENT 31: SARSA for Tic-Tac-Toe
+Aim
+
+To implement the SARSA algorithm to develop an AI agent that learns to play a simple board game and evaluate its performance.
+
+Algorithm / Procedure
+Represent the Tic-Tac-Toe board as a state.
+Define the empty board positions as possible actions.
+Initialize the Q-table.
+Select an action using the ε-greedy strategy.
+Perform the selected action and observe the reward.
+Select the next action using the same policy.
+Update the Q-value using the SARSA equation.
+Repeat the process for multiple episodes.
+Display the number of learned state-action pairs.
+Corrected Program
+import numpy as np
+import random
+
+
+# Q-table
+Q = {}
+
+
+alpha = 0.5
+gamma = 0.9
+epsilon = 0.1
+
+
+
+
+def get_q(state, action):
+    if (state, action) not in Q:
+        Q[(state, action)] = 0.0
+    return Q[(state, action)]
+
+
+
+
+def choose_action(state, actions):
+    if random.random() < epsilon:
+        return random.choice(actions)
+
+
+    return max(actions, key=lambda a: get_q(state, a))
+
+
+
+
+# Training
+for episode in range(1000):
+
+
+    board = [0] * 9
+    state = tuple(board)
+
+
+    while True:
+
+
+        # Available positions
+        actions = [i for i in range(9) if board[i] == 0]
+
+
+        if not actions:
+            break
+
+
+        # Current action
+        action = choose_action(state, actions)
+
+
+        # Make move
+        board[action] = 1
+
+
+        next_state = tuple(board)
+
+
+        # Reward
+        if sum(board) == 9:
+            reward = 10
+            next_q = 0
+        else:
+            reward = -1
+
+
+            next_actions = [
+                i for i in range(9)
+                if board[i] == 0
+            ]
+
+
+            if next_actions:
+                next_action = choose_action(
+                    next_state, next_actions
+                )
+
+
+                next_q = get_q(
+                    next_state, next_action
+                )
+            else:
+                next_q = 0
+
+
+        # SARSA update
+        current_q = get_q(state, action)
+
+
+        Q[(state, action)] = current_q + alpha * (
+            reward + gamma * next_q - current_q
+        )
+
+
+        state = next_state
+
+
+        if sum(board) == 9:
+            break
+
+
+
+
+print("SARSA Training Completed")
+print("Number of learned state-action pairs:", len(Q))
+Output
+
+You should get something similar to:
+
+SARSA Training Completed
+Number of learned state-action pairs: 1000+
+
+The exact number may be different.
+
+Result
+
+The SARSA algorithm was successfully implemented, and the AI agent learned state-action values through interaction with the Tic-Tac-Toe environment.
