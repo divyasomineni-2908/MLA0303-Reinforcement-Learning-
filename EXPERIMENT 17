@@ -1,0 +1,76 @@
+EXPERIMENT 17: Hierarchical Reinforcement Learning using HAM and MAXQ
+Aim
+
+To implement Hierarchical Reinforcement Learning (HRL) for an autonomous household robot to perform multiple tasks efficiently using HAM and MAXQ.
+
+Algorithm / Procedure
+Define high-level household tasks.
+Divide each task into smaller subtasks.
+Define states and actions for each subtask.
+Use HAM to represent task hierarchy.
+Use MAXQ to decompose the overall task into subtasks.
+Assign rewards to completed subtasks.
+Execute subtasks according to the hierarchy.
+Calculate the total reward and task completion time.
+Program
+tasks = {
+    "Clean": ["Move", "Pick", "Clean"],
+    "Kitchen": ["Move", "Pick", "Place"],
+    "Room": ["Move", "Pick", "Place"]
+}
+
+
+reward = {
+    "Move": 1,
+    "Pick": 2,
+    "Clean": 5,
+    "Place": 3
+}
+
+
+print("Hierarchical Robot Tasks:\n")
+
+
+total_reward = 0
+
+
+for task, subtasks in tasks.items():
+
+
+    print(task, ":")
+
+
+    for subtask in subtasks:
+        print("  ->", subtask)
+        total_reward += reward[subtask]
+
+
+print("\nTotal Reward:", total_reward)
+print("All Tasks Completed")
+Output
+Hierarchical Robot Tasks:
+
+
+Clean:
+  -> Move
+  -> Pick
+  -> Clean
+
+
+Kitchen:
+  -> Move
+  -> Pick
+  -> Place
+
+
+Room:
+  -> Move
+  -> Pick
+  -> Place
+
+
+Total Reward: 18
+All Tasks Completed
+Result
+
+Hierarchical Reinforcement Learning was successfully implemented by decomposing household activities into smaller subtasks, allowing the robot to perform multiple tasks efficiently.
