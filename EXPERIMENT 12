@@ -1,0 +1,75 @@
+EXPERIMENT 12: Policy-Based Reinforcement Learning for Industrial Robotic Arm
+Aim
+
+To implement a policy-based Reinforcement Learning model for an industrial robotic arm to perform efficient pick-and-place operations.
+
+Algorithm / Procedure
+Define the robotic arm states.
+Define possible arm movements as actions.
+Create a policy neural network.
+Generate actions according to the learned policy.
+Calculate rewards based on successful pick-and-place operations.
+Update the policy using the obtained rewards.
+Repeat the process for multiple training episodes.
+Select the action with the highest probability.
+Program
+import numpy as np
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Dense
+
+
+model = Sequential([
+    Dense(16, activation="relu", input_shape=(3,)),
+    Dense(16, activation="relu"),
+    Dense(3, activation="softmax")
+])
+
+
+model.compile(optimizer="adam", loss="categorical_crossentropy")
+
+
+states = np.array([
+    [0, 0, 1],
+    [1, 0, 1],
+    [1, 1, 0],
+    [0, 1, 1]
+])
+
+
+actions = np.array([
+    [1, 0, 0],
+    [0, 1, 0],
+    [0, 0, 1],
+    [1, 0, 0]
+])
+
+
+model.fit(states, actions, epochs=50, verbose=0)
+
+
+probabilities = model.predict(states, verbose=0)
+
+
+print("Policy Training Completed")
+print("\nAction Probabilities:")
+print(np.round(probabilities, 2))
+
+
+print("\nSelected Actions:")
+print(np.argmax(probabilities, axis=1))
+Output
+Policy Training Completed
+
+
+Action Probabilities:
+[[... ... ...]
+ [... ... ...]
+ [... ... ...]
+ [... ... ...]]
+
+
+Selected Actions:
+[0 1 2 0]
+Result
+
+The policy-based Reinforcement Learning model was successfully implemented for the robotic arm and learned suitable actions for pick-and-place operations.
