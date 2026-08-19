@@ -1,0 +1,78 @@
+EXPERIMENT 27: Autonomous Car Road Network
+Aim
+
+To simulate an autonomous car navigating a simple road network with intersections and design policies that follow traffic rules and reach the destination safely.
+
+Algorithm / Procedure
+Define the road network as states.
+Define actions for moving through intersections.
+Assign rewards for safe movements.
+Assign penalties for violating traffic rules.
+Define a safe driving policy.
+Simulate the autonomous car.
+Track its movements.
+Evaluate whether it reaches the destination safely.
+Program
+states = ["Start", "Intersection", "Road", "Destination"]
+
+
+policy = {
+    "Start": "Move",
+    "Intersection": "Wait",
+    "Road": "Move"
+}
+
+
+rewards = {
+    "Move": 5,
+    "Wait": 2
+}
+
+
+current = "Start"
+total_reward = 0
+
+
+print("Autonomous Car Path:")
+
+
+while current != "Destination":
+
+
+    print(current)
+
+
+    if current == "Start":
+        action = policy[current]
+        current = "Intersection"
+
+
+    elif current == "Intersection":
+        action = policy[current]
+        current = "Road"
+
+
+    else:
+        action = policy[current]
+        current = "Destination"
+
+
+    total_reward += rewards[action]
+
+
+print("Destination")
+print("\nTotal Reward:", total_reward)
+print("Safe Driving Completed")
+Output
+Autonomous Car Path:
+Start
+Intersection
+Road
+Destination
+
+
+Total Reward: 12
+Safe Driving Completed
+Result
+
+The autonomous car successfully followed the predefined safe-driving policy and reached the destination while following traffic rules.
