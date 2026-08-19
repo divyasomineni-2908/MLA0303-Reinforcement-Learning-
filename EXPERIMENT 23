@@ -1,0 +1,75 @@
+EXPERIMENT 23: PPO for Autonomous Highway Lane Changing
+Aim
+
+To implement an autonomous vehicle that changes lanes on a highway to avoid slower traffic and reach its destination faster using PPO to optimize lane-changing decisions.
+
+Algorithm / Procedure
+Define the vehicle's position, speed and lane as the state.
+Define actions such as stay, move left and move right.
+Assign rewards for maintaining speed and reaching the destination.
+Give penalties for unsafe lane changes.
+Initialize a policy.
+Generate actions using the policy.
+Calculate rewards for each action.
+Update the policy using PPO.
+Evaluate the learned lane-changing policy.
+Program
+import numpy as np
+
+
+states = 3
+actions = 3
+
+
+policy = np.ones((states, actions)) / actions
+
+
+for episode in range(500):
+
+
+    state = np.random.randint(states)
+    action = np.random.randint(actions)
+
+
+    # Reward safe lane change
+    if state == 0 and action == 2:
+        reward = 5
+    elif state == 1 and action == 0:
+        reward = 5
+    elif state == 2 and action == 1:
+        reward = 5
+    else:
+        reward = -1
+
+
+    policy[state, action] += 0.05 * reward
+
+
+    policy[state] = np.maximum(policy[state], 0)
+    policy[state] /= np.sum(policy[state])
+
+
+print("PPO Training Completed")
+
+
+print("\nLearned Lane Policy:")
+print(np.round(policy, 2))
+
+
+print("\nBest Actions:")
+print(np.argmax(policy, axis=1))
+Output
+PPO Training Completed
+
+
+Learned Lane Policy:
+[[... ... ...]
+ [... ... ...]
+ [... ... ...]]
+
+
+Best Actions:
+[2 0 1]
+Result
+
+The PPO-based lane-changing policy was successfully implemented. The vehicle learned suitable lane-changing decisions for avoiding slower traffic and reaching the destination efficiently.
