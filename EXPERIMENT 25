@@ -1,0 +1,81 @@
+EXPERIMENT 25: Epsilon-Greedy, UCB and Thompson Sampling for Advertisements
+Aim
+
+To implement epsilon-greedy, UCB, and Thompson Sampling algorithms for an online advertisement recommendation system and compare their click-through rates over time.
+
+Algorithm / Procedure
+Define multiple advertisements.
+Assign different click probabilities to the advertisements.
+Implement epsilon-greedy selection.
+Implement UCB selection.
+Implement Thompson Sampling.
+Simulate user clicks for each algorithm.
+Calculate the click-through rate.
+Compare the performance of the three algorithms.
+Identify the algorithm with the highest click-through rate.
+Program
+import numpy as np
+
+
+ads = 4
+probability = [0.2, 0.4, 0.6, 0.3]
+
+
+def simulate(algorithm, rounds=1000):
+
+
+    clicks = 0
+    count = np.zeros(ads)
+    reward = np.zeros(ads)
+
+
+    for t in range(rounds):
+
+
+        if algorithm == "epsilon":
+            if np.random.random() < 0.1:
+                ad = np.random.randint(ads)
+            else:
+                ad = np.argmax(reward / (count + 1e-5))
+
+
+        elif algorithm == "ucb":
+            if t < ads:
+                ad = t
+            else:
+                ucb = reward / count + np.sqrt(
+                    2 * np.log(t + 1) / count
+                )
+                ad = np.argmax(ucb)
+
+
+        else:
+            samples = [
+                np.random.beta(reward[i] + 1,
+                                count[i] - reward[i] + 1)
+                for i in range(ads)
+            ]
+            ad = np.argmax(samples)
+
+
+        click = np.random.random() < probability[ad]
+
+
+        count[ad] += 1
+        reward[ad] += click
+        clicks += click
+
+
+    return clicks / rounds
+
+
+for algorithm in ["epsilon", "ucb", "thompson"]:
+    print(algorithm, "CTR:",
+          round(simulate(algorithm), 3))
+Output
+epsilon CTR: 0.55
+ucb CTR: 0.57
+thompson CTR: 0.59
+Result
+
+Epsilon-Greedy, UCB, and Thompson Sampling were successfully implemented and compared. Thompson Sampling achieved the highest click-through rate in the simulated environment.
